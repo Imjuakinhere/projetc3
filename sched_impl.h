@@ -1,6 +1,6 @@
 #ifndef	__SCHED_IMPL__H__
 #define	__SCHED_IMPL__H__
-#include <semaphore.h>;
+#include <semaphore.h>
 #include "list.h"
 
 
