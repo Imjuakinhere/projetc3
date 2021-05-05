@@ -219,39 +219,76 @@ Q 1  What are some pros and cons of using the struct of function pointers
      significantly affect performance?  Give some examples of when you would
      and wouldn't use this approach, and why.
 
+     The pro and the cons are closely the same. we do get some overhead calling 
+     function pointers, this would ofcourse will allow us to some polymorphic classes.
+     This does not effect the performance so NO. Small example of this we would 
+     only use it when we are interested in a polymarphic classes other wise we 
+     wouldn't use it in this senerial. 
+
 Q 2  Briefly describe the synchronization constructs you needed to implement
      this MP--i.e., how you mediated admission of threads to the scheduler
      queue and how you made sure only the scheduled thread would run at any
      given time.
 
+     To make sure everything is executed at the appropiate time 
+     I used a synchonous threading
+
 Q 3  Why is the dummy scheduling implementation provided potentially
      unsafe (i.e. could result in invalid memory references)?  How does
      your implementation avoid this problem?
+
+     Yes we do get a "invalid memory reference". Due to the way it was implemented
+     with a dynamic and allocating memories so there should be no way we get a 
+     invalid refrences.
 
 Q 4  When using the FIFO or Round Robin scheduling algorithm, can
      sched_proc() ever "miss" any threads and exit early before all threads
      have been scheduled and run to completion?  If yes, give an example; if
      no, explain why not.
 
+     No it will not miss any threads since it will not exit without it completing
+     all threads since all threads are joined and the program will execute all the thread 
+     before exiting.
+
 Q 5  Why are the three variables in scheduler.h declared 'extern'?  What
      would happen if they were not declared 'extern'?  What would happen
      if they were not declared without the 'extern' in any file?
 
+     The reason why they are extern because we want them to retain their value
+     for complete executions and we also want to have acces to the variables anywhere
+     in the program with the same value. 
+
 Q 6  Describe the behavior of exit_error() function in scheduler.c.  Why
      does exit_error() not use errno?
+
+     This will just print the error statement also the error_num witch are passed by
+     as a parameter then exits the program
 
 Q 7  Does it matter whether the call to sched_ops->wait_for_queue(queue) in
      sched_proc() actually does anything?  How would it affect correctness
      if it just returned right away?  How about performance?
+
+     Yes it does matter because if it returns right away we will end up having 
+     problems with other threads witch will cause harm to the correctness.
 
 Q 8  Explain how worker_proc() is able to call the appropriate
      implementation of wait_for_cpu() corresponding to the scheduling policy
      selected by the user on the command line.  Start from main() and
      briefly explain each step along the way.
 
+     First main will call the method create_worker with the information in
+     the command line argument.It will then set the values for worker_args_t 
+     witch will then call the method worker_proc in thread along with the objects perameter
+     of worker_args_t. Witch will then happen is that the worker_proc will call 
+     wait_for_cpu including the information in thread worker_args_t.
+
 Q 9  Is it possible that a worker thread would never proceed past the call to
      wa->ops->wait_for_cpu(&wa->info) when using one of the scheduling
      policies implemented in this MP?
+
+     Yes is possible. for example if all the processes are in time unit of 1 so
+     if we have maximum number of processes at a time as long as is less than or queal
+     to the number of threads then it will finish instandly.
 
 Q 10 Explain how you would alter the program to demonstrate the "convoy"
      effect, when a large compute bound job that never yields to another
@@ -261,3 +298,7 @@ Q 10 Explain how you would alter the program to demonstrate the "convoy"
      processes".  Why is it difficult to show the benefits of Round Robin
      scheduling in this case using the current implementation in the machine
      problem?
+
+    by making some changed in the concept of FIFO so that we could have a point 
+    that a process can maximum stay n time units for the execution.
+    after that it will stay cause it must wait again for its turn.  

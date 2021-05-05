@@ -71,6 +71,7 @@ static void release_cpu(thread_info_t *info)
 // Then we will repeat the step before but instead we will be executing in FIFO scheduling (return NUll for empty)
 // We will Block until at least one worker thread is in the schedualer queue.
 
+// Don't forget Cworker is current worker and Nworker is the next worker
 static void init_sched_queue(sched_queue_t *queue, int queue_size)
 {
         if (queue_size <= 0)
