@@ -77,8 +77,8 @@ static void init_sched_queue(sched_queue_t *queue, int queue_size)
 		{
                 exit(-1); //exit entire program if queue has a size of zero
         }
-        queue->currentWorker = NULL;
-        queue->nextWorker = NULL;
+        queue->CWorker = NULL;
+        queue->NWorker = NULL;
         queue->list = (list_t*) malloc(sizeof(list_t));
         list_init(queue->list);
         sem_init(&controlSem, 0, queue_size);
@@ -112,28 +112,28 @@ static thread_info_t * next_worker_rr(sched_queue_t *queue)
 		{
              return NULL;
         }
-        if(queue->currentWorker == NULL)
+        if(queue->CWorker == NULL)
 		{	//queue was empty and now has an item in it
-            queue->currentWorker = list_get_head(queue->list);
+            queue->CWorker = list_get_head(queue->list);
         } 
-		else if (queue->nextWorker == NULL) 
-		{	//the last currentWorker was the tail of the queue
-            if (queue->currentWorker == list_get_tail(queue->list)) 
+		else if (queue->NWorker == NULL) 
+		{	//the last CWorker was the tail of the queue
+            if (queue->CWorker == list_get_tail(queue->list)) 
 			{
 				//the previous working thread is still in the queue and is the tail
-                 queue->currentWorker = list_get_head(queue->list);
+                 queue->CWorker = list_get_head(queue->list);
             } else 
 			{	//collect the new tail
-                queue->currentWorker = list_get_tail(queue->list); 
+                queue->CWorker = list_get_tail(queue->list); 
             }
         } 
 		else 
 		{	//next worker is a member of the list
-            queue->currentWorker = queue->nextWorker;
+            queue->CWorker = queue->NWorker;
         }
 
-        queue->nextWorker = queue->currentWorker->next;
-        return (thread_info_t*) queue->currentWorker->datum;
+        queue->NWorker = queue->CWorker->next;
+        return (thread_info_t*) queue->CWorker->datum;
 }
 static thread_info_t * next_worker_fifo(sched_queue_t *queue) {
         if(list_size(queue->list) == 0) {
