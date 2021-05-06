@@ -76,7 +76,7 @@ static void init_sched_queue(sched_queue_t *queue, int queue_size)
 {
         if (queue_size <= 0)
 		{
-                exit(-1); //exit entire program if queue has a size of zero
+                exit(-1); 
         }
         queue->CWorker = NULL;
         queue->NWorker = NULL;
@@ -114,22 +114,22 @@ static thread_info_t * next_worker_rr(sched_queue_t *queue)
              return NULL;
         }
         if(queue->CWorker == NULL)
-		{	//queue was empty and now has an item in it
+		{	//the queue is empty but it will know contain a item in it 
             queue->CWorker = list_get_head(queue->list);
         } 
 		else if (queue->NWorker == NULL) 
 		{	//the last CWorker was the tail of the queue
             if (queue->CWorker == list_get_tail(queue->list)) 
 			{
-				//the previous working thread is still in the queue and is the tail
+				//there still the previous working thread is still in the queue wit h is also the tail 
                  queue->CWorker = list_get_head(queue->list);
             } else 
-			{	//collect the new tail
+			{	//get the new tail
                 queue->CWorker = list_get_tail(queue->list); 
             }
         } 
 		else 
-		{	//next worker is a member of the list
+		{	//the next worker is a member of the list
             queue->CWorker = queue->NWorker;
         }
 
