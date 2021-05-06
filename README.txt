@@ -262,7 +262,8 @@ Q 6  Describe the behavior of exit_error() function in scheduler.c.  Why
      does exit_error() not use errno?
 
      This will just print the error statement also the error_num witch are passed by
-     as a parameter then exits the program
+     as a parameter then exits the program.because the Errno would give more information 
+     on an error condition, but the exit_error already prints a number to indiciate the error condition.
 
 Q 7  Does it matter whether the call to sched_ops->wait_for_queue(queue) in
      sched_proc() actually does anything?  How would it affect correctness
